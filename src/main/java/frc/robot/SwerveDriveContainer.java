@@ -27,7 +27,7 @@ public class SwerveDriveContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public SwerveDriveContainer() {
         // N/A

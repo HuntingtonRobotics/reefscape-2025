@@ -9,14 +9,6 @@ import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.Constants.LauncherConstants;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.Launcher;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -43,14 +35,6 @@ public class Robot extends TimedRobot {
     for (int port = 5800; port <= 5807; port++) {
             PortForwarder.add(port, "limelight.local", port);
     }
-
-    m_LSpeed =
-        Shuffleboard.getTab("Configuration")
-            .add("Max Speed", 1)
-            .withWidget("Number Slider")
-            .withPosition(1, 1)
-            .withSize(2, 1)
-            .getEntry();
 
 
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our

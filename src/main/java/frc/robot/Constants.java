@@ -13,11 +13,14 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static final int CurrentLimit = 80;
+
   public static class OperatorConstants {
     // Port numbers for driver and operator gamepads. These correspond with the numbers on the USB
     // tab of the DriverStation
-    public static final int kDriverControllerPort = 0;
-    public static final int kOperatorControllerPort = 1;
+    public static final int DriverControllerPort = 0;
+    public static final int OperatorControllerPort = 1;
   }
 
   public static class DrivetrainConstants {
@@ -29,39 +32,6 @@ public final class Constants {
 
     // Current limit for drivetrain motors
     public static final int kCurrentLimit = 60;
-  }
-
-  public static class IntakeConstants {
-    public static final int IntakeMotorID = 40;
-    public static final double IntakeFeederSpeed = 1.0;
-    public static final double IntakeSpeed = 1.0;
-    public static final int CurrentLimit = 80;
-  }
-
-  public static class LauncherConstants {
-    // PWM ports/CAN IDs for motor controllers
-    public static final int kLauncherLeftyID = 41;
-    public static final int kLauncherRightyID = 33;
-
-    public static final int kLauncherCurrentLimit = 80;
-
-    // Speeds for wheels when intaking and launching
-    //  Intake speeds could be negative to run the wheels in reverse
-    public static final double kLauncherSpeed = 1;
-    public static final double kLaunchFeederSpeed = 1;
-    public static final double kLauncherDelay = 2.0;
-  }
-
-  public static class LauncherArmConstants {
-    public static final int kRightLifterID = 31;
-    public static final int kLeftLifterID = 30;
-    public static int CurrentLimit = 80;
-  }
-  public static class ClawConstants{
-    //these are sample numbers, they may need to be adjusted later as they are not the real numbers. 
-    public static final int kRightClaw = 51;
-    public static final int kLeftClaw = 50;    
-    public static int CurrentLimit = 80;
   }
   
 }
