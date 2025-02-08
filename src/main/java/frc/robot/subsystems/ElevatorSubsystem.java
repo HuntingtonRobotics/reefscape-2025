@@ -4,6 +4,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,13 +27,15 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         rightMotor.configure(rightConfig, null, null);
         leftMotor.configure(leftConfig, null, null);
+
+        // Consider using Encoder class to determine its height and raise/lower until it reaches a known height
     }
     
     public Command raise() {
-        return Commands.none();
+        return this.run(() -> rightMotor.set(1.0));
     }
 
     public Command lower() {
-        return Commands.none();
+        return this.run(() -> rightMotor.set(-1.0));
     }
 }
