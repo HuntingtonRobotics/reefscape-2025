@@ -14,9 +14,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AlgaeCommands;
+import frc.robot.commands.CoralElevatorCommands;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.AlgaeIntake;
 import frc.robot.subsystems.CageClimber;
+import frc.robot.subsystems.CoralDoor;
+import frc.robot.subsystems.CoralRamp;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /**
@@ -31,7 +35,12 @@ public class RobotContainer {
   private final AlgaeArm algaeArm = new AlgaeArm();
   private final AlgaeIntake algaeIntake = new AlgaeIntake();
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
+  private final CoralRamp coralRamp = new CoralRamp();
+  private final CoralDoor coralDoor = new CoralDoor();
   private final CageClimber climber = new CageClimber();
+
+  private final CoralElevatorCommands coralElevatorCommands = new CoralElevatorCommands(elevator, coralRamp, coralDoor);
+  private final AlgaeCommands algaeCommands = new AlgaeCommands(algaeArm, algaeIntake);
 
   private final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
@@ -77,7 +86,11 @@ public class RobotContainer {
    * Define trigger->command bindings for gameplay actions (raise/lower, on/off, etc.)
    */
   private void configureGameplayBindings() {
-    // Example: m_operatorController.a().whileTrue(climber.raise())
+    // Example: operatorController.a().whileTrue(climber.raise())
+    operatorController.a().onTrue(coralElevatorCommands.raiseToFirstPosition());
+    operatorController.x().onTrue(coralElevatorCommands.raiseToSecondPosition());
+    operatorController.y().onTrue(coralElevatorCommands.raiseToThirdPosition());
+    operatorController.b().onTrue(coralElevatorCommands.reset());
   }
 
   /**
