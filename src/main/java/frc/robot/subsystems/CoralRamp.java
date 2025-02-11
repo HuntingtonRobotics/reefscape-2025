@@ -10,14 +10,15 @@ public class CoralRamp extends SubsystemBase {
     private Solenoid rampSolenoid; // Or DoubleSolenoid
 
     public CoralRamp() {
-        rampSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+        rampSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 0);
     }
 
-    public Command raise() {
-        return Commands.none();
+    public Command toggleRaise() {
+        return this.run(()->rampSolenoid.toggle());
     }
 
-    public Command lower() {
+   /*  public Command lower() {
         return Commands.none();
-    }
+    } 
+    */
 }

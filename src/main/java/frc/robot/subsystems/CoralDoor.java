@@ -10,14 +10,12 @@ public class CoralDoor extends SubsystemBase {
     private Solenoid doorSolenoid; // Or DoubleSolenoid
 
     public CoralDoor() {
-        doorSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+        doorSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 0);
     }
 
-    public Command up() {
-        return Commands.none();
+    public Command toggleSolenoid() {
+        return this.run(() -> doorSolenoid.toggle());
     }
 
-    public Command down() {
-        return Commands.none();
-    }
+   
 }

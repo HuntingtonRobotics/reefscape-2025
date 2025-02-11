@@ -22,10 +22,16 @@ public class AlgaeIntake extends SubsystemBase {
     }
 
     public Command intake() {
-        return Commands.none();
+        return this.run(() -> motor.set(0.25));
+            
+
+
     }
 
     public Command outtake() {
-        return Commands.none();
+        return this.run(() -> motor.set(-0.25));
+
+
+
     }
 }

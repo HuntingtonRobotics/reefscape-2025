@@ -8,10 +8,12 @@ import java.util.Optional;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeCommands;
@@ -91,6 +93,9 @@ public class RobotContainer {
     operatorController.x().onTrue(coralElevatorCommands.raiseToSecondPosition());
     operatorController.y().onTrue(coralElevatorCommands.raiseToThirdPosition());
     operatorController.b().onTrue(coralElevatorCommands.reset());
+    operatorController.povUp().whileTrue(coralRamp.toggleRaise());
+    operatorController.povDown().whileTrue(coralDoor.toggleSolenoid());
+
   }
 
   /**
