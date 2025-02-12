@@ -20,8 +20,8 @@ public class CoralElevatorCommands {
     public Command raiseToFirstPosition() {
         return Commands.sequence(
             elevator.raise(),
-            coralRamp.raise(),
-            coralDoor.down()
+            coralRamp.toggleRaise(),
+            coralDoor.toggleSolenoid()
         );
     }
 
@@ -35,8 +35,8 @@ public class CoralElevatorCommands {
 
     public Command reset() {
         return Commands.sequence(
-            coralDoor.up(),
-            coralRamp.lower(),
+            coralDoor.toggleSolenoid(),
+            coralRamp.toggleRaise(),
             elevator.lower()
         );
     }
