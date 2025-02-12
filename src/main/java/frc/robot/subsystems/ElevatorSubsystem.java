@@ -28,11 +28,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     private RelativeEncoder leftMotorEncoder;
             
     public ElevatorSubsystem() {
-        rightMotor = new SparkMax(-1, MotorType.kBrushless);
+        rightMotor = new SparkMax(9, MotorType.kBrushless);
         rightMotorController = rightMotor.getClosedLoopController();
         rightMotorEncoder = rightMotor.getEncoder();
 
-        leftMotor = new SparkMax(-1, MotorType.kBrushless);
+        leftMotor = new SparkMax(11, MotorType.kBrushless);
         leftMotorController = rightMotor.getClosedLoopController();
         leftMotorEncoder = rightMotor.getEncoder();
 

@@ -13,7 +13,7 @@ public class AlgaeIntake extends SubsystemBase {
     private SparkMax motor;
 
     public AlgaeIntake() {
-        motor = new SparkMax(-1, MotorType.kBrushless);
+        motor = new SparkMax(1, MotorType.kBrushless);
 
         SparkMaxConfig config = new SparkMaxConfig();
         config.smartCurrentLimit(Constants.CurrentLimit);

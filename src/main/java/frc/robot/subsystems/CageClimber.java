@@ -14,8 +14,8 @@ public class CageClimber extends SubsystemBase {
     private SparkMax leftMotor;
 
     public CageClimber() {
-        rightMotor = new SparkMax(-1, MotorType.kBrushless);
-        leftMotor = new SparkMax(-1, MotorType.kBrushless);
+        rightMotor = new SparkMax(2, MotorType.kBrushless);
+        leftMotor = new SparkMax(3, MotorType.kBrushless);
 
         SparkMaxConfig leftConfig = new SparkMaxConfig();
         leftConfig.follow(rightMotor)

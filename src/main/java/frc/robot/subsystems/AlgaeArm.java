@@ -13,7 +13,7 @@ public class AlgaeArm extends SubsystemBase {
     public AlgaeArm() {
 
         LeftSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
-        RightSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
+        RightSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 2);
 
     }
 
