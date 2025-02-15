@@ -44,7 +44,7 @@ public class RobotContainer {
   private final CoralElevatorCommands coralElevatorCommands = new CoralElevatorCommands(elevator, coralRamp, coralDoor);
   private final AlgaeCommands algaeCommands = new AlgaeCommands(algaeArm, algaeIntake);
 
-  private final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
+  //private final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
   Alliance assignedAlliance;
 
@@ -61,7 +61,7 @@ public class RobotContainer {
 
     configureBindings();
     
-    CameraServer.startAutomaticCapture(); // adds to dashboard
+    // CameraServer.startAutomaticCapture(); // adds to dashboard
 
   }
 
@@ -89,12 +89,23 @@ public class RobotContainer {
    */
   private void configureGameplayBindings() {
     // Example: operatorController.a().whileTrue(climber.raise())
-    operatorController.a().onTrue(coralElevatorCommands.raiseToFirstPosition());
-    operatorController.x().onTrue(coralElevatorCommands.raiseToSecondPosition());
-    operatorController.y().onTrue(coralElevatorCommands.raiseToThirdPosition());
-    operatorController.b().onTrue(coralElevatorCommands.reset());
-    operatorController.povUp().whileTrue(coralRamp.toggleRaise());
-    operatorController.povDown().whileTrue(coralDoor.toggleOpen());
+    operatorController.a().whileTrue(elevator.raise());
+    operatorController.b().whileTrue(elevator.lower());
+    //operatorController.b().onTrue(elevator.resetEncoder());
+    // operatorController.a().onTrue(coralElevatorCommands.raiseToFirstPosition());
+    // operatorController.x().onTrue(coralElevatorCommands.raiseToSecondPosition());
+    // operatorController.y().onTrue(coralElevatorCommands.raiseToThirdPosition());
+    // operatorController.b().onTrue(coralElevatorCommands.reset());
+    // operatorController.povUp().whileTrue(coralRamp.toggleRaise());
+    // operatorController.povDown().whileTrue(coralDoor.toggleOpen());
+
+    //operatorController.leftBumper().onTrue(algaeIntake.intake());
+    operatorController.leftBumper().whileTrue(algaeIntake.intake());
+    operatorController.rightBumper().whileTrue(algaeIntake.outtake());
+
+    operatorController.y().onTrue(algaeArm.extend()).onFalse(algaeArm.retract());
+    operatorController.rightTrigger().onChange(coralRamp.toggleRaise());
+    operatorController.leftTrigger().onChange(coralDoor.toggleOpen());
 
   }
 

@@ -26,58 +26,52 @@ public class ElevatorSubsystem extends SubsystemBase {
     private SparkMax leftMotor;
     private SparkClosedLoopController leftMotorController;
     private RelativeEncoder leftMotorEncoder;
-            
+
     public ElevatorSubsystem() {
-        rightMotor = new SparkMax(9, MotorType.kBrushless);
-        rightMotorController = rightMotor.getClosedLoopController();
-        rightMotorEncoder = rightMotor.getEncoder();
 
-        leftMotor = new SparkMax(11, MotorType.kBrushless);
-        leftMotorController = rightMotor.getClosedLoopController();
-        leftMotorEncoder = rightMotor.getEncoder();
+        // Motor configuration (brake mode, follow, etc) are configured using Rev Hardware Client
 
-        SparkMaxConfig globalConfig = new SparkMaxConfig();
-        globalConfig.smartCurrentLimit(Constants.CurrentLimit)
-                    .idleMode(IdleMode.kBrake);
+        rightMotor = new SparkMax(30, MotorType.kBrushless);
+        // rightMotorController = rightMotor.getClosedLoopController();
+        // rightMotorEncoder = rightMotor.getEncoder();
 
-        SparkMaxConfig rightConfig = new SparkMaxConfig();
-        rightConfig.apply(globalConfig);
-        rightConfig.encoder.positionConversionFactor(1);
-        rightConfig.closedLoop
-            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            // PID values for position control (default slot: ClosedLoopSlot.kSlot0)
-            .p(0.1)
-            .i(0)
-            .d(0)
-            .outputRange(-1,1);
+        leftMotor = new SparkMax(31, MotorType.kBrushless);
+        // leftMotorController = leftMotor.getClosedLoopController();
+        // leftMotorEncoder = leftMotor.getEncoder();
 
-        SparkMaxConfig leftConfig = new SparkMaxConfig();
-        leftConfig.apply(globalConfig)
-                  .follow(rightMotor);
-        leftConfig.encoder.positionConversionFactor(1);
-        leftConfig.closedLoop
-            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-            // PID values for position control (default slot: ClosedLoopSlot.kSlot0)
-            .p(0.1)
-            .i(0)
-            .d(0)
-            .outputRange(-1,1);
+        // rightConfig.encoder.positionConversionFactor(1);
+        // rightConfig.closedLoop
+        // .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        // // PID values for position control (default slot: ClosedLoopSlot.kSlot0)
+        // .p(0.1)
+        // .i(0)
+        // .d(0)
+        // .outputRange(-1,1);
 
-        rightMotor.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // leftConfig.encoder.positionConversionFactor(1);
+        // leftConfig.closedLoop
+        // .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        // // PID values for position control (default slot: ClosedLoopSlot.kSlot0)
+        // .p(0.1)
+        // .i(0)
+        // .d(0)
+        // .outputRange(-1,1);
     }
-    
+
     // Using controller and encoder classes to set target height
 
     public Command raise() {
-        return this.run(() -> {
-            rightMotorController.setReference(0.5, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-            leftMotorController.setReference(0.5, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-        });
+        return this.startEnd(
+            () -> rightMotor.set(-0.1), // reverse direction for 'raise'
+            () -> rightMotor.set(0)
+        );
     }
 
     public Command lower() {
-        return this.run(() -> rightMotor.set(-1.0));
+        return this.startEnd(
+            () -> rightMotor.set(0.1),
+            () -> rightMotor.set(0)
+        );
     }
 
     /*

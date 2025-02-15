@@ -10,17 +10,17 @@ public class AlgaeArm extends SubsystemBase {
     private Solenoid solenoid;
 
     public AlgaeArm() {
-        solenoid = new Solenoid(PneumaticsModuleType.REVPH, 13);
+        solenoid = new Solenoid(50, PneumaticsModuleType.REVPH, 13);
     }
 
     public Command extend() {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             solenoid.set(true);
         });
     }
 
     public Command retract() {
-        return this.run(() -> {
+        return this.runOnce(() -> {
             solenoid.set(false);
         });
     }
