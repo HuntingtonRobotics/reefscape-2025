@@ -21,7 +21,7 @@ public class CoralElevatorCommands {
         return Commands.sequence(
             elevator.raise(),
             coralRamp.toggleRaise(),
-            coralDoor.toggleSolenoid()
+            coralDoor.toggleOpen()
         );
     }
 
@@ -35,7 +35,7 @@ public class CoralElevatorCommands {
 
     public Command reset() {
         return Commands.sequence(
-            coralDoor.toggleSolenoid(),
+            coralDoor.toggleOpen(),
             coralRamp.toggleRaise(),
             elevator.lower()
         );

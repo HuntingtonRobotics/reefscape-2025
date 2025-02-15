@@ -94,7 +94,7 @@ public class RobotContainer {
     operatorController.y().onTrue(coralElevatorCommands.raiseToThirdPosition());
     operatorController.b().onTrue(coralElevatorCommands.reset());
     operatorController.povUp().whileTrue(coralRamp.toggleRaise());
-    operatorController.povDown().whileTrue(coralDoor.toggleSolenoid());
+    operatorController.povDown().whileTrue(coralDoor.toggleOpen());
 
   }
 
