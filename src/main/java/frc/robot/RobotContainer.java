@@ -6,11 +6,15 @@ package frc.robot;
 
 import java.util.Optional;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -44,7 +48,8 @@ public class RobotContainer {
   private final CoralElevatorCommands coralElevatorCommands = new CoralElevatorCommands(elevator, coralRamp, coralDoor);
   private final AlgaeCommands algaeCommands = new AlgaeCommands(algaeArm, algaeIntake);
 
-  //private final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
+  /* Path follower */
+  private final SendableChooser<Command> autoChooser;
 
   Alliance assignedAlliance;
 
@@ -58,11 +63,14 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     assignedAlliance = getAlliance();
+    autoChooser = AutoBuilder.buildAutoChooser("RA");
+    SmartDashboard.putData("Auto Mode", autoChooser);
 
     configureBindings();
     
     // CameraServer.startAutomaticCapture(); // adds to dashboard
 
+    NamedCommands.registerCommand("raiseToFirstPosition", coralElevatorCommands.raiseToFirstPosition());
   }
 
   private Alliance getAlliance() {
@@ -89,10 +97,13 @@ public class RobotContainer {
    */
   private void configureGameplayBindings() {
     // Example: operatorController.a().whileTrue(climber.raise())
-    operatorController.a().whileTrue(elevator.raise());
-    operatorController.b().whileTrue(elevator.lower());
+    operatorController.povUp().whileTrue(elevator.raise());
+    operatorController.povDown().whileTrue(elevator.lower());
+    //operatorController.a().whileTrue(elevator.raiseToFirstPosition());
     //operatorController.b().onTrue(elevator.resetEncoder());
-    // operatorController.a().onTrue(coralElevatorCommands.raiseToFirstPosition());
+
+
+    //operatorController.a().onTrue(coralElevatorCommands.raiseToFirstPosition());
     // operatorController.x().onTrue(coralElevatorCommands.raiseToSecondPosition());
     // operatorController.y().onTrue(coralElevatorCommands.raiseToThirdPosition());
     // operatorController.b().onTrue(coralElevatorCommands.reset());
@@ -115,7 +126,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return autonomousChooser.getSelected();
-    return Commands.none();
+    return autoChooser.getSelected();
+  }
+
+  public double getCurrentElevatorPosition() {
+    //return elevator.getCurrentPosition();
+    return 0;
   }
 }

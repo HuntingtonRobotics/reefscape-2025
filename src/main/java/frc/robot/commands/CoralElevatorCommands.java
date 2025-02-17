@@ -18,11 +18,12 @@ public class CoralElevatorCommands {
     }
 
     public Command raiseToFirstPosition() {
-        return Commands.sequence(
-            elevator.raise(),
-            coralRamp.toggleRaise(),
-            coralDoor.toggleOpen()
-        );
+        // return Commands.sequence(
+        //     Commands.race(elevator.raise(), Commands.waitSeconds(1.5)),
+        //     //coralRamp.toggleRaise(),
+        //     coralDoor.toggleOpen()
+        // );
+        return coralDoor.toggleOpen();
     }
 
     public Command raiseToSecondPosition() {
