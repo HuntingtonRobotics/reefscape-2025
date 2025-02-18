@@ -63,14 +63,14 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     assignedAlliance = getAlliance();
+
+    NamedCommands.registerCommand("raiseToFirstPosition", coralElevatorCommands.raiseToFirstPosition());
     autoChooser = AutoBuilder.buildAutoChooser("RA");
     SmartDashboard.putData("Auto Mode", autoChooser);
 
     configureBindings();
     
     // CameraServer.startAutomaticCapture(); // adds to dashboard
-
-    NamedCommands.registerCommand("raiseToFirstPosition", coralElevatorCommands.raiseToFirstPosition());
   }
 
   private Alliance getAlliance() {
@@ -130,7 +130,6 @@ public class RobotContainer {
   }
 
   public double getCurrentElevatorPosition() {
-    //return elevator.getCurrentPosition();
-    return 0;
+    return elevator.getCurrentPosition();
   }
 }
