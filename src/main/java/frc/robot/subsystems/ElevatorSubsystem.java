@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ElevatorSubsystem extends SubsystemBase {
+public class ElevatorSubsystem extends SubsystemBase implements AutoCloseable {
     private SparkMax rightMotor;
     private SparkMaxConfig rightMotorConfig;
     private RelativeEncoder rightMotorEncoder;
@@ -88,5 +88,11 @@ public class ElevatorSubsystem extends SubsystemBase {
         return this.runOnce(() -> {
             rightMotorEncoder.setPosition(0);
         });
+    }
+
+    @Override
+    public void close(){
+        leftMotor.close();
+        rightMotor.close();
     }
 }
