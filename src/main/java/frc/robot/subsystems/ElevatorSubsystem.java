@@ -42,7 +42,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                 }
             }
         }),
-        Commands.print(String.format("getPosition() = {0} rotations", rightMotorEncoder.getPosition())));
+        Commands.print(String.format("targetRotations=[{0}] encoderPosition=[{1}] rotations", targetRotations, rightMotorEncoder.getPosition())));
     }
 
     public Command lowerToHeight(double targetHeightMeters) {
@@ -55,7 +55,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                 }
             }
         }),
-        Commands.print(String.format("getPosition() = {0} rotations", rightMotorEncoder.getPosition())));
+        Commands.print(String.format("targetRotations=[{0}] encoderPosition=[{1}] rotations", targetRotations, rightMotorEncoder.getPosition())));
     }
 
     public Command raise() {
