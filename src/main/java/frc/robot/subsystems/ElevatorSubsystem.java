@@ -22,13 +22,16 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem() {
 
+        //rightMotor = right;
+        //leftMotor = left;
+
         // Motor configuration (brake mode, follow, etc) are configured using Rev Hardware Client
 
         rightMotor = new SparkMax(30, MotorType.kBrushless);
         rightMotorEncoder = rightMotor.getEncoder();
         rightMotorConfig = new SparkMaxConfig();
 
-        leftMotor = new SparkMax(31, MotorType.kBrushless); // set to 'follow' in the SparkMax
+        leftMotor = new SparkMax(31, MotorType.kBrushless); // set to 'follow' using the REV Hardware Client
 
         rightMotorConfig.encoder.positionConversionFactor(1);
         rightMotor.configure(rightMotorConfig, null, null);
@@ -39,6 +42,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         gearCircumferenceMeters = (gearRadiusMeters * 2) * Math.PI;
 
     }
+
+    // private static ElevatorSubsystem Create() {
+    //     SparkMax rightSparkMax = new SparkMax(30, MotorType.kBrushless);
+    //     SparkMax leftSparkMax = new SparkMax(31, MotorType.kBrushless);
+    //     return new ElevatorSubsystem(rightSparkMax, leftSparkMax);
+    // }
 
     public Command raiseToHeight(double heightMeters) {
         double targetPositionMeters = SmartDashboard.getNumber("Target Position", 0);
