@@ -15,9 +15,4 @@ public class CoralRamp extends SubsystemBase {
     public Command toggleRaise() {
         return this.runOnce(()->rampSolenoid.toggle());
     }
-
-   /*  public Command lower() {
-        return Commands.none();
-    } 
-    */
 }

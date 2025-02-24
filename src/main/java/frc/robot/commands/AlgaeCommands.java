@@ -17,14 +17,14 @@ public class AlgaeCommands {
     public Command getAlgae() {
         return Commands.sequence(
             algaeArm.extend(),
-            algaeIntake.intake()
+            Commands.deadline(Commands.waitSeconds(1.0), algaeIntake.intake())
         );
     }
 
     public Command depositAlgae() {
         return Commands.sequence(
             algaeArm.retract(),
-            algaeIntake.outtake()
+            Commands.deadline(Commands.waitSeconds(1.0), algaeIntake.outtake())
         );
     }
 }

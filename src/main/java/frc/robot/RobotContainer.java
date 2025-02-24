@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.DashboardConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeCommands;
 import frc.robot.commands.CoralElevatorCommands;
@@ -64,9 +65,12 @@ public class RobotContainer {
   public RobotContainer() {
     assignedAlliance = getAlliance();
 
-    NamedCommands.registerCommand("raiseToFirstPosition", coralElevatorCommands.raiseToFirstPosition());
+    NamedCommands.registerCommand("coralToFirstPosition", coralElevatorCommands.coralToFirstPosition());
     autoChooser = AutoBuilder.buildAutoChooser("RA");
-    SmartDashboard.putData("Auto Mode", autoChooser);
+
+    // Initialize dashboard values
+    SmartDashboard.putData(DashboardConstants.AutoModeKey, autoChooser);
+    SmartDashboard.setDefaultNumber(DashboardConstants.TargetElevatorPositionKey, 0);
 
     configureBindings();
     

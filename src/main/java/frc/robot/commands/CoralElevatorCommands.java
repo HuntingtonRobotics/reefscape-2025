@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.DashboardConstants;
 import frc.robot.subsystems.CoralDoor;
 import frc.robot.subsystems.CoralRamp;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -17,28 +19,24 @@ public class CoralElevatorCommands {
         this.coralDoor = door;
     }
 
-    public Command raiseToFirstPosition() {
-        // return Commands.sequence(
-        //     Commands.race(elevator.raise(), Commands.waitSeconds(1.5)),
-        //     //coralRamp.toggleRaise(),
-        //     coralDoor.toggleOpen()
-        // );
-        return coralDoor.toggleOpen();
+    public Command coralToFirstPosition() {
+        double targetPositionMeters = SmartDashboard.getNumber(DashboardConstants.TargetElevatorPositionKey, 1);
+        return Commands.sequence(
+            elevator.raiseToHeight(targetPositionMeters),
+            coralRamp.toggleRaise(),
+            coralDoor.toggleOpen()
+        );
     }
 
-    public Command raiseToSecondPosition() {
+    public Command coralToSecondPosition() {
         return Commands.none(); 
     }
 
-    public Command raiseToThirdPosition() {
+    public Command coralToThirdPosition() {
         return Commands.none(); 
     }
 
     public Command reset() {
-        return Commands.sequence(
-            coralDoor.toggleOpen(),
-            coralRamp.toggleRaise(),
-            elevator.lower()
-        );
+        return Commands.none();
     }
 }

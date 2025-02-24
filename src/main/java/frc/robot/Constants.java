@@ -33,5 +33,10 @@ public final class Constants {
     // Current limit for drivetrain motors
     public static final int kCurrentLimit = 60;
   }
+
+  public static class DashboardConstants {
+    public static final String AutoModeKey = "Auto Mode";
+    public static final String TargetElevatorPositionKey = "Target Position";
+  }
   
 }

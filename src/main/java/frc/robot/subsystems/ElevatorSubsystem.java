@@ -4,7 +4,6 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,15 +12,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     private SparkMax rightMotor;
     private SparkMaxConfig rightMotorConfig;
     private RelativeEncoder rightMotorEncoder;
-    
+
     @SuppressWarnings("unused")
     private SparkMax leftMotor;
 
-    private final double gearRadiusMeters = 0.037;
-    private double gearCircumferenceMeters;
+    public static final double GearRadiusMeters = 0.037;
+    public static final double GearCircumferenceMeters = (GearRadiusMeters * 2) * Math.PI;
 
     public ElevatorSubsystem() {
-
         // Motor configuration (brake mode, follow, etc) are configured using Rev Hardware Client
 
         rightMotor = new SparkMax(30, MotorType.kBrushless);
@@ -32,40 +30,45 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         rightMotorConfig.encoder.positionConversionFactor(1);
         rightMotor.configure(rightMotorConfig, null, null);
-
-        // Initialize dashboard values
-        SmartDashboard.setDefaultNumber("Target Position", 0);
-
-        gearCircumferenceMeters = (gearRadiusMeters * 2) * Math.PI;
-
     }
 
-    public Command raiseToHeight(double heightMeters) {
-        double targetPositionMeters = SmartDashboard.getNumber("Target Position", 0);
-        double targetRotations = targetPositionMeters / gearCircumferenceMeters;
+    public Command raiseToHeight(double targetHeightMeters) {
+        double targetRotations = targetHeightMeters / GearCircumferenceMeters;
         return Commands.race(raise(), this.runOnce(() -> {
-            while(true) {
-                double currentPosition = rightMotorEncoder.getPosition();
-                if (currentPosition >= targetRotations) {
+            while (true) {
+                double currentPositionRotations = rightMotorEncoder.getPosition();
+                if (currentPositionRotations >= targetRotations) {
                     break;
                 }
             }
-        }));
+        }),
+        Commands.print(String.format("getPosition() = {0} rotations", rightMotorEncoder.getPosition())));
+    }
+
+    public Command lowerToHeight(double targetHeightMeters) {
+        double targetRotations = targetHeightMeters / GearCircumferenceMeters;
+        return Commands.race(raise(), this.runOnce(() -> {
+            while (true) {
+                double currentPositionRotations = rightMotorEncoder.getPosition();
+                if (currentPositionRotations <= targetRotations) {
+                    break;
+                }
+            }
+        }),
+        Commands.print(String.format("getPosition() = {0} rotations", rightMotorEncoder.getPosition())));
     }
 
     public Command raise() {
         return this.startEnd(
-            () -> rightMotor.set(-0.5), // reverse direction for 'raise'
-            () -> rightMotor.set(0)
-        );
-        
+                () -> rightMotor.set(-0.5), // reverse direction for 'raise'
+                () -> rightMotor.set(0));
+
     }
 
     public Command lower() {
         return this.startEnd(
-            () -> rightMotor.set(0.3),
-            () -> rightMotor.set(0)
-        );
+                () -> rightMotor.set(0.3),
+                () -> rightMotor.set(0));
     }
 
     public double getCurrentPosition() {
