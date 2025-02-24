@@ -23,20 +23,10 @@ public final class Constants {
     public static final int OperatorControllerPort = 1;
   }
 
-  public static class DrivetrainConstants {
-    // PWM ports/CAN IDs for motor controllers
-    public static final int kLeftRearID = 2;
-    public static final int kLeftFrontID = 1;
-    public static final int kRightRearID = 3;
-    public static final int kRightFrontID = 4;
-
-    // Current limit for drivetrain motors
-    public static final int kCurrentLimit = 60;
-  }
-
   public static class DashboardConstants {
     public static final String AutoModeKey = "Auto Mode";
-    public static final String TargetElevatorPositionKey = "Target Position";
+    public static final String TargetElevatorPositionKey = "Elevator Target Position";
+    public static final String CurrentElevatorPositionKey = "Elevator Current Position";
   }
   
 }
