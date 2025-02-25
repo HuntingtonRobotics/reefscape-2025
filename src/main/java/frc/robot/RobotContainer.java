@@ -63,6 +63,7 @@ public class RobotContainer {
     assignedAlliance = getAlliance();
 
     NamedCommands.registerCommand("coralToFirstPosition", coralElevatorCommands.coralToFirstPosition());
+    NamedCommands.registerCommand("coralToSecondPosition", coralElevatorCommands.coralToSecondPosition());
     autoChooser = AutoBuilder.buildAutoChooser("Drive Forward");
 
     // Initialize dashboard values

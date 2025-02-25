@@ -20,6 +20,15 @@ public class CoralElevatorCommands {
     }
 
     public Command coralToFirstPosition() {
+        // Elevator only needs to rise a few inches
+        return Commands.sequence(
+            elevator.raiseToHeight(0.058), // 2in
+            coralRamp.toggleRaise(),
+            coralDoor.toggleOpen()
+        );
+    }
+
+    public Command coralToSecondPosition() {
         double targetPositionMeters = SmartDashboard.getNumber(DashboardConstants.TargetElevatorPositionKey, 1);
         return Commands.sequence(
             elevator.raiseToHeight(targetPositionMeters),
@@ -28,11 +37,11 @@ public class CoralElevatorCommands {
         );
     }
 
-    public Command coralToSecondPosition() {
+    public Command coralToThirdPosition() {
         return Commands.none(); 
     }
 
-    public Command coralToThirdPosition() {
+    public Command coralToTopPosition() {
         return Commands.none(); 
     }
 
