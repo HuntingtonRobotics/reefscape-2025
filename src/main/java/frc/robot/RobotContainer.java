@@ -64,7 +64,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("coralToFirstPosition", coralElevatorCommands.coralToFirstPosition());
     NamedCommands.registerCommand("coralToSecondPosition", coralElevatorCommands.coralToSecondPosition());
-    autoChooser = AutoBuilder.buildAutoChooser("Drive Forward");
+    autoChooser = AutoBuilder.buildAutoChooser("Score Coral Second Pos");
 
     // Initialize dashboard values
     SmartDashboard.putData(DashboardConstants.AutoModeKey, autoChooser);
@@ -117,8 +117,8 @@ public class RobotContainer {
     operatorController.rightBumper().whileTrue(algaeIntake.outtake());
 
     operatorController.y().onTrue(algaeArm.extend()).onFalse(algaeArm.retract());
-    operatorController.rightTrigger().onChange(coralRamp.toggleRaise());
-    operatorController.leftTrigger().onChange(coralDoor.toggleOpen());
+    operatorController.rightTrigger().onTrue(coralRamp.toggleRaise());
+    operatorController.leftTrigger().onTrue(coralDoor.toggleOpen());
 
   }
 

@@ -31,8 +31,9 @@ public class CoralElevatorCommands {
     public Command coralToSecondPosition() {
         double targetPositionMeters = SmartDashboard.getNumber(DashboardConstants.TargetElevatorPositionKey, 1);
         return Commands.sequence(
-            elevator.raiseToHeight(targetPositionMeters),
-            coralRamp.toggleRaise(),
+            //elevator.raiseToHeight(targetPositionMeters),
+            Commands.race(elevator.raise(), Commands.waitSeconds(1.1)),
+            //coralRamp.toggleRaise(),
             coralDoor.toggleOpen()
         );
     }
