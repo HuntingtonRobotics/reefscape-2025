@@ -101,8 +101,8 @@ public class RobotContainer {
     // Example: operatorController.a().whileTrue(climber.raise())
     operatorController.povUp().whileTrue(elevator.raise());
     operatorController.povDown().whileTrue(elevator.lower());
-    //operatorController.a().whileTrue(elevator.raiseToFirstPosition());
-    //operatorController.b().onTrue(elevator.resetEncoder());
+    operatorController.a().whileTrue(elevator.raiseToHeightAlt(0.2032));
+    operatorController.b().onTrue(elevator.resetEncoder());
 
 
     //operatorController.a().onTrue(coralElevatorCommands.raiseToFirstPosition());
