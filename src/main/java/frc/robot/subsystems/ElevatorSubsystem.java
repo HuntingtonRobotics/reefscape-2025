@@ -34,7 +34,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public Command raiseToHeight(double targetHeightMeters) {
         double targetRotations = targetHeightMeters / GearCircumferenceMeters;
-        return Commands.race(raise(), this.runOnce(() -> {
+        return Commands.race(raise(), Commands.runOnce(() -> {
             while (true) {
                 double currentPositionRotations = rightMotorEncoder.getPosition();
                 if (currentPositionRotations >= targetRotations) {
@@ -47,7 +47,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public Command lowerToHeight(double targetHeightMeters) {
         double targetRotations = targetHeightMeters / GearCircumferenceMeters;
-        return Commands.race(raise(), this.runOnce(() -> {
+        return Commands.race(raise(), Commands.runOnce(() -> {
             while (true) {
                 double currentPositionRotations = rightMotorEncoder.getPosition();
                 if (currentPositionRotations <= targetRotations) {
