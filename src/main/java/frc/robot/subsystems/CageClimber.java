@@ -19,12 +19,12 @@ public class CageClimber extends SubsystemBase {
         solenoid = new Solenoid(50, PneumaticsModuleType.REVPH, 6);
     }
 
-    public Command raise() {
+    public Command out() {
         return this.startEnd(() -> motor.set(maxSpeed), () -> motor.set(0));
 
     }
 
-    public Command lower() {
+    public Command in() {
         return this.startEnd(() -> motor.set(-maxSpeed), () -> motor.set(0));
     }
 

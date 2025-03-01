@@ -14,11 +14,11 @@ public class AlgaeIntake extends SubsystemBase {
         motor = new SparkFlex(40, MotorType.kBrushless);
     }
 
-    public Command intake() {
+    public Command outtake() {
         return this.startEnd(() -> motor.set(1), () -> motor.set(0));
     }
 
-    public Command outtake() {
+    public Command intake() {
         return this.startEnd(() -> motor.set(-0.5), () -> motor.set(0));
     }
 

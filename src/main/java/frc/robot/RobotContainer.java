@@ -120,20 +120,20 @@ public class RobotContainer {
 
     // Algae
     operatorController.leftBumper().onTrue(algaeArm.toggleExtend());
-    operatorController.leftTrigger().whileTrue(algaeIntake.intake());
-    operatorController.rightTrigger().whileTrue(algaeIntake.outtake());
+    operatorController.leftTrigger().whileTrue(algaeIntake.outtake());
+    operatorController.rightTrigger().whileTrue(algaeIntake.intake());
 
     // Coral
     operatorController.rightStick().onTrue(coralRamp.toggleRaise());
     operatorController.leftStick().onTrue(coralDoor.toggleOpen());
 
     // Cage Climber
-    operatorController.povLeft().whileTrue(climber.raise());
-    operatorController.povRight().whileTrue(climber.lower());
+    operatorController.povRight().whileTrue(climber.out());
+    operatorController.povLeft().whileTrue(climber.in());
     operatorController.back().onChange(climber.toggle());
     
     if(!toplimitSwitch.get()) {
-      algaeIntake.intake();
+      algaeIntake.outtake();
     }  
 
   }

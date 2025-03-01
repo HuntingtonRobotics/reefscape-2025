@@ -24,11 +24,11 @@ public class CoralElevatorCommands {
     }    
 
     public Command coralToThirdPosition() {
-        return raiseByTime(2.1);
+        return raiseByTime(2.3);
     }
 
     public Command coralToTopPosition() {
-        return raiseByTime(2.5);
+        return raiseByTime(3.8);
     }
 
     public Command reset() {
@@ -40,6 +40,8 @@ public class CoralElevatorCommands {
             //elevator.raiseToHeight(targetPositionMeters),
             Commands.race(elevator.raise(), Commands.waitSeconds(seconds)),
             //coralRamp.toggleRaise(),
+            coralDoor.toggleOpen(),
+            Commands.waitSeconds(4),
             coralDoor.toggleOpen()
         );
     }
