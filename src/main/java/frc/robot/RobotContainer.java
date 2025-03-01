@@ -45,7 +45,7 @@ public class RobotContainer {
   private final CoralDoor coralDoor = new CoralDoor();
   private final CageClimber climber = new CageClimber();
 
-  private final CoralElevatorCommands coralElevatorCommands = new CoralElevatorCommands(elevator, coralRamp, coralDoor);
+  private final CoralElevatorCommands coralElevatorCommands = new CoralElevatorCommands(elevator, coralDoor);
   private final AlgaeCommands algaeCommands = new AlgaeCommands(algaeArm, algaeIntake);
 
 
@@ -103,43 +103,40 @@ public class RobotContainer {
    * Define trigger->command bindings for gameplay actions (raise/lower, on/off, etc.)
    */
   private void configureGameplayBindings() {
-    // Example: operatorController.a().whileTrue(climber.raise())
+    // Elevator
     operatorController.povUp().whileTrue(elevator.raise());
     operatorController.povDown().whileTrue(elevator.lower());
-    operatorController.a().whileTrue(elevator.raiseToHeightAlt(0.2032));
-    operatorController.b().onTrue(elevator.resetEncoder());
+    // A = first position
+    operatorController.a().onTrue(coralElevatorCommands.coralToFirstPosition());
+    // X = second
+    operatorController.x().onTrue(coralElevatorCommands.coralToSecondPosition());
+    // Y = third
+    operatorController.y().onTrue(coralElevatorCommands.coralToThirdPosition());
+    // B = top
+    operatorController.b().onTrue(coralElevatorCommands.coralToTopPosition());
+    // Reset encoder - only necessary for auto-raise by height
+    operatorController.b().and(operatorController.x()).onTrue(elevator.resetEncoder());
+    
 
+    // Algae
+    operatorController.leftBumper().onTrue(algaeArm.toggleExtend());
+    operatorController.leftTrigger().whileTrue(algaeIntake.intake());
+    operatorController.rightTrigger().whileTrue(algaeIntake.outtake());
 
-    //operatorController.a().onTrue(coralElevatorCommands.raiseToFirstPosition());
-    // operatorController.x().onTrue(coralElevatorCommands.raiseToSecondPosition());
-    // operatorController.y().onTrue(coralElevatorCommands.raiseToThirdPosition());
-    // operatorController.b().onTrue(coralElevatorCommands.reset());
-    // operatorController.povUp().whileTrue(coralRamp.toggleRaise());
-    // operatorController.povDown().whileTrue(coralDoor.toggleOpen());
+    // Coral
+    operatorController.rightStick().onTrue(coralRamp.toggleRaise());
+    operatorController.leftStick().onTrue(coralDoor.toggleOpen());
 
-    //operatorController.leftBumper().onTrue(algaeIntake.intake());
-    operatorController.leftBumper().whileTrue(algaeIntake.intake());
-    operatorController.rightBumper().whileTrue(algaeIntake.outtake());
-
-    operatorController.y().onTrue(algaeArm.extend()).onFalse(algaeArm.retract());
-    operatorController.rightTrigger().onTrue(coralRamp.toggleRaise());
-    operatorController.leftTrigger().onTrue(coralDoor.toggleOpen());
-
+    // Cage Climber
     operatorController.povLeft().whileTrue(climber.raise());
     operatorController.povRight().whileTrue(climber.lower());
-
-    operatorController.a().whileTrue(climber.something());
-
+    operatorController.back().onChange(climber.toggle());
+    
     if(!toplimitSwitch.get()) {
       algaeIntake.intake();
-      }  
+    }  
 
-
-
-
-
-    }
-
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
