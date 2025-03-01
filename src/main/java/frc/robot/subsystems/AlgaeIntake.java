@@ -15,10 +15,13 @@ public class AlgaeIntake extends SubsystemBase {
     }
 
     public Command intake() {
-        return this.startEnd(() -> motor.set(0.5), () -> motor.set(0));
+        return this.startEnd(() -> motor.set(1), () -> motor.set(0));
     }
 
     public Command outtake() {
         return this.startEnd(() -> motor.set(-0.5), () -> motor.set(0));
     }
+
+   
+
 }

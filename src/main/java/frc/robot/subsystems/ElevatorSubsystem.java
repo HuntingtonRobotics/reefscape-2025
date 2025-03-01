@@ -94,6 +94,13 @@ public class ElevatorSubsystem extends SubsystemBase {
                 () -> rightMotor.set(0));
     }
 
+
+    public Command elvstop() {
+        return this.run(() -> rightMotor.set(0));
+    }
+
+    
+
     public double getCurrentPosition() {
         return rightMotorEncoder.getPosition();
     }

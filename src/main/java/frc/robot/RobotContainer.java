@@ -26,6 +26,8 @@ import frc.robot.subsystems.CageClimber;
 import frc.robot.subsystems.CoralDoor;
 import frc.robot.subsystems.CoralRamp;
 import frc.robot.subsystems.ElevatorSubsystem;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,6 +47,9 @@ public class RobotContainer {
 
   private final CoralElevatorCommands coralElevatorCommands = new CoralElevatorCommands(elevator, coralRamp, coralDoor);
   private final AlgaeCommands algaeCommands = new AlgaeCommands(algaeArm, algaeIntake);
+
+
+   DigitalInput toplimitSwitch = new DigitalInput(8);
 
   /* Path follower */
   private final SendableChooser<Command> autoChooser;
@@ -120,7 +125,21 @@ public class RobotContainer {
     operatorController.rightTrigger().onTrue(coralRamp.toggleRaise());
     operatorController.leftTrigger().onTrue(coralDoor.toggleOpen());
 
-  }
+    operatorController.povLeft().whileTrue(climber.raise());
+    operatorController.povRight().whileTrue(climber.lower());
+
+    operatorController.a().whileTrue(climber.something());
+
+    if(!toplimitSwitch.get()) {
+      algaeIntake.intake();
+      }  
+
+
+
+
+
+    }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
