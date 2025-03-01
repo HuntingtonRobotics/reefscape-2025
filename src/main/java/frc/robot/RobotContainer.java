@@ -69,7 +69,9 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("coralToFirstPosition", coralElevatorCommands.coralToFirstPosition());
     NamedCommands.registerCommand("coralToSecondPosition", coralElevatorCommands.coralToSecondPosition());
-    autoChooser = AutoBuilder.buildAutoChooser("Score Coral Second Pos");
+    NamedCommands.registerCommand("coralToThirdPosition", coralElevatorCommands.coralToThirdPosition());
+    NamedCommands.registerCommand("coralToTopPosition", coralElevatorCommands.coralToTopPosition());
+    autoChooser = AutoBuilder.buildAutoChooser("Drive Forward");
 
     // Initialize dashboard values
     SmartDashboard.putData(DashboardConstants.AutoModeKey, autoChooser);
@@ -77,7 +79,7 @@ public class RobotContainer {
 
     configureBindings();
     
-    // CameraServer.startAutomaticCapture(); // adds to dashboard
+    CameraServer.startAutomaticCapture(); // adds to dashboard
   }
 
   private Alliance getAlliance() {
