@@ -39,8 +39,8 @@ public class SwerveDriveContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(controller.getLeftY() * MaxSpeed / 2) // Drive forward with negative Y (forward)
-                    .withVelocityY(controller.getLeftX() * MaxSpeed / 2) // Drive left with negative X (left)
+                drive.withVelocityX(-controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-controller.getRightX() * MaxAngularRate / 2) // Drive counterclockwise with negative X (left)
             )
         );
