@@ -71,6 +71,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("coralToSecondPosition", coralElevatorCommands.coralToSecondPosition());
     NamedCommands.registerCommand("coralToThirdPosition", coralElevatorCommands.coralToThirdPosition());
     NamedCommands.registerCommand("coralToTopPosition", coralElevatorCommands.coralToTopPosition());
+    NamedCommands.registerCommand("lowerToBottomIshFromSecondPosition", coralElevatorCommands.lowerToBottomIshFromSecondPosition());
     NamedCommands.registerCommand("lowerToBottomIshFromTop", coralElevatorCommands.lowerToBottomIshFromTop());
     autoChooser = AutoBuilder.buildAutoChooser("Drive Forward");
 

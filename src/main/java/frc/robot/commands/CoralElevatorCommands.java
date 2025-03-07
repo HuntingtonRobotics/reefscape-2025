@@ -31,6 +31,10 @@ public class CoralElevatorCommands {
         return raiseByTime(2.6);
     }
 
+    public Command lowerToBottomIshFromSecondPosition() {
+        return lowerByTime(0.35);
+    }
+
     public Command lowerToBottomIshFromTop() {
         return lowerByTime(2);
     }

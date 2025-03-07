@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Move to 4"
+            "pathName": "Move to 3"
           }
         },
         {
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Move Back 4"
+            "pathName": "Move Back 3"
           }
         },
         {
