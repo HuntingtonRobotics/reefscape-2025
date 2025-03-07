@@ -45,6 +45,9 @@ public class SwerveDriveContainer {
             )
         );
 
+        // Fine motor control
+        fineMotorControlBindings(controller);
+
         controller.a().whileTrue(drivetrain.applyRequest(() -> brake));
         controller.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-controller.getLeftY(), -controller.getLeftX()))
@@ -61,6 +64,36 @@ public class SwerveDriveContainer {
         controller.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+    }
+
+    private void fineMotorControlBindings(CommandXboxController controller) {
+        // Forward
+        controller.povUp().whileTrue(
+            drivetrain.applyRequest(() ->
+                drive.withVelocityX(-0.5)
+            )
+        );
+
+        // Backward
+        controller.povDown().whileTrue(
+            drivetrain.applyRequest(() ->
+                drive.withVelocityX(0.5)
+            )
+        );
+
+        // Left
+        controller.povLeft().whileTrue(
+            drivetrain.applyRequest(() ->
+                drive.withVelocityY(0.5)
+            )
+        );
+
+        // Right
+        controller.povRight().whileTrue(
+            drivetrain.applyRequest(() ->
+                drive.withVelocityY(-0.5)
+            )
+        );
     }
 
     public Command getAutonomousCommand() {
