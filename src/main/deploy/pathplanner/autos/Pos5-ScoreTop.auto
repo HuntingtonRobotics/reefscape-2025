@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Move to 4"
+            "pathName": "Move to 5"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "coralToFirstPosition"
+            "name": "coralToTopPosition"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Station"
+            "pathName": "Move Back 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "lowerToBottomIshFromTop"
           }
         }
       ]

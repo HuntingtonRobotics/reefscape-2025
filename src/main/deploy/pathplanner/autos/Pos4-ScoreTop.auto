@@ -13,13 +13,19 @@
         {
           "type": "named",
           "data": {
-            "name": "coralToFirstPosition"
+            "name": "coralToTopPosition"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Station"
+            "pathName": "Move Back 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "lowerToBottomIshFromTop"
           }
         }
       ]
