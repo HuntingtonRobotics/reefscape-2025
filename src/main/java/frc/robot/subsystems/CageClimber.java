@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class CageClimber extends SubsystemBase {
     private SparkMax motor;
     private Solenoid solenoid;
-    private final double maxSpeed = 0.05;
+    private final double maxSpeed = 0.5;
 
     public CageClimber() {
         // Motor configuration (brake mode, follow, etc) are configured using Rev Hardware Client
         motor = new SparkMax(32, MotorType.kBrushless);
-        solenoid = new Solenoid(50, PneumaticsModuleType.REVPH, 6);
+        solenoid = new Solenoid(50, PneumaticsModuleType.REVPH, 15);
     }
 
     public Command out() {
@@ -29,6 +29,7 @@ public class CageClimber extends SubsystemBase {
     }
 
     public Command toggle() {
-        return this.run(() -> solenoid.toggle());
+        return this.runOnce(() -> solenoid.toggle());
+        
     }
 }

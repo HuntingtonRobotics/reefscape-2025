@@ -71,6 +71,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("coralToSecondPosition", coralElevatorCommands.coralToSecondPosition());
     NamedCommands.registerCommand("coralToThirdPosition", coralElevatorCommands.coralToThirdPosition());
     NamedCommands.registerCommand("coralToTopPosition", coralElevatorCommands.coralToTopPosition());
+    NamedCommands.registerCommand("lowerToBottomIshFromTop", coralElevatorCommands.lowerToBottomIshFromTop());
     autoChooser = AutoBuilder.buildAutoChooser("Drive Forward");
 
     // Initialize dashboard values
@@ -126,18 +127,24 @@ public class RobotContainer {
     operatorController.rightTrigger().whileTrue(algaeIntake.intake());
 
     // Coral
-    operatorController.rightStick().onTrue(coralRamp.toggleRaise());
+    operatorController.rightStick().onTrue(coralRamp.toggleRaise()/* ,coralRamp.toggleLower()*/);
     operatorController.leftStick().onTrue(coralDoor.toggleOpen());
 
     // Cage Climber
     operatorController.povRight().whileTrue(climber.out());
     operatorController.povLeft().whileTrue(climber.in());
-    operatorController.back().onChange(climber.toggle());
+    driverController.y().onTrue(climber.toggle());
+    //onChange
+
+
+    //emergancy break
+    operatorController.back().onTrue(elevator.stop());
+    
     
     if(!toplimitSwitch.get()) {
       algaeIntake.outtake();
     }  
-
+    
   }
 
   /**

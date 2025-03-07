@@ -83,19 +83,19 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public Command raise() {
         return this.startEnd(
-                () -> rightMotor.set(-0.5), // reverse direction for 'raise'
+                () -> rightMotor.set(-0.7), // reverse direction for 'raise'
                 () -> rightMotor.set(0));
 
     }
 
     public Command lower() {
         return this.startEnd(
-                () -> rightMotor.set(0.3),
+                () -> rightMotor.set(0.55),
                 () -> rightMotor.set(0));
     }
 
 
-    public Command elvstop() {
+    public Command stop() {
         return this.run(() -> rightMotor.set(0));
     }
 
