@@ -26,7 +26,6 @@ import frc.robot.subsystems.CageClimber;
 import frc.robot.subsystems.CoralDoor;
 import frc.robot.subsystems.CoralRamp;
 import frc.robot.subsystems.ElevatorSubsystem;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
@@ -71,8 +70,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("coralToSecondPosition", coralElevatorCommands.coralToSecondPosition());
     NamedCommands.registerCommand("coralToThirdPosition", coralElevatorCommands.coralToThirdPosition());
     NamedCommands.registerCommand("coralToTopPosition", coralElevatorCommands.coralToTopPosition());
+    NamedCommands.registerCommand("lowerTopToThirdPositionIsh", coralElevatorCommands.lowerTopToThirdPositionIsh());
     NamedCommands.registerCommand("lowerToBottomIshFromSecondPosition", coralElevatorCommands.lowerToBottomIshFromSecondPosition());
     NamedCommands.registerCommand("lowerToBottomIshFromTop", coralElevatorCommands.lowerToBottomIshFromTop());
+    NamedCommands.registerCommand("getAlgae", algaeCommands.getAlgae());
+    NamedCommands.registerCommand("depositAlgae", algaeCommands.depositAlgae());
     autoChooser = AutoBuilder.buildAutoChooser("Drive Forward");
 
     // Initialize dashboard values
@@ -140,7 +142,7 @@ public class RobotContainer {
 
     //emergancy break
     operatorController.back().onTrue(elevator.stop());
-    
+
     
     if(!toplimitSwitch.get()) {
       algaeIntake.outtake();
