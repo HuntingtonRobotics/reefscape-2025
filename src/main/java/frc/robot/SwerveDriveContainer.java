@@ -67,31 +67,66 @@ public class SwerveDriveContainer {
     }
 
     private void fineMotorControlBindings(CommandXboxController controller) {
+        double speedX = 0.5;
+        double speedY = 0.5;
+
         // Forward
         controller.povUp().whileTrue(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-0.5)
+                drive.withVelocityX(speedX)
             )
         );
 
         // Backward
         controller.povDown().whileTrue(
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(0.5)
+                drive.withVelocityX(-speedX)
             )
         );
 
         // Left
         controller.povLeft().whileTrue(
             drivetrain.applyRequest(() ->
-                drive.withVelocityY(0.5)
+                drive.withVelocityY(speedY)
             )
         );
 
         // Right
         controller.povRight().whileTrue(
             drivetrain.applyRequest(() ->
-                drive.withVelocityY(-0.5)
+                drive.withVelocityY(-speedY)
+            )
+        );
+
+        // Forward-Left
+        controller.povUpLeft().whileTrue(
+            drivetrain.applyRequest(() -> 
+                drive.withVelocityX(speedX)
+                     .withVelocityY(speedY)    
+            )
+        );
+
+        // Forward-Right
+        controller.povUpRight().whileTrue(
+            drivetrain.applyRequest(() -> 
+                drive.withVelocityX(speedX)
+                     .withVelocityY(-speedY)    
+            )
+        );
+
+        // Backward-Left
+        controller.povDownLeft().whileTrue(
+            drivetrain.applyRequest(() -> 
+                drive.withVelocityX(-speedX)
+                     .withVelocityY(speedY)    
+            )
+        );
+
+        // Backward-Right
+        controller.povDownRight().whileTrue(
+            drivetrain.applyRequest(() -> 
+                drive.withVelocityX(-speedX)
+                     .withVelocityY(-speedY)
             )
         );
     }
