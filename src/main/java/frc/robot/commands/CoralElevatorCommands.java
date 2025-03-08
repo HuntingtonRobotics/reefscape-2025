@@ -53,7 +53,7 @@ public class CoralElevatorCommands {
             Commands.race(elevator.raise(), Commands.waitSeconds(seconds)),
             //coralRamp.toggleRaise(),
             coralDoor.toggleOpen(),
-            Commands.waitSeconds(3),
+            Commands.waitSeconds(2.5),
             coralDoor.toggleOpen()
         );
     }
