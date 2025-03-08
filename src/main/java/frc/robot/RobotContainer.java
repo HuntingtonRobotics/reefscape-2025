@@ -122,6 +122,8 @@ public class RobotContainer {
     operatorController.b().onTrue(coralElevatorCommands.coralToTopPosition());
     // Reset encoder - only necessary for auto-raise by height
     operatorController.b().and(operatorController.x()).onTrue(elevator.resetEncoder());
+    // Emergency break
+    operatorController.back().onTrue(elevator.stop());
     
 
     // Algae
@@ -130,18 +132,13 @@ public class RobotContainer {
     operatorController.rightTrigger().whileTrue(algaeIntake.intake());
 
     // Coral
-    operatorController.rightStick().onTrue(coralRamp.toggleRaise()/* ,coralRamp.toggleLower()*/);
+    operatorController.rightStick().onTrue(coralRamp.toggleRaise());
     operatorController.leftStick().onTrue(coralDoor.toggleOpen());
 
     // Cage Climber
     operatorController.povRight().whileTrue(climber.out());
     operatorController.povLeft().whileTrue(climber.in());
-    driverController.y().onTrue(climber.toggle());
-    //onChange
-
-
-    //emergancy break
-    operatorController.back().onTrue(elevator.stop());
+    operatorController.rightBumper().onTrue(climber.toggle());
 
     
     if(!toplimitSwitch.get()) {

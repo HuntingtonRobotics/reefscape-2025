@@ -16,7 +16,7 @@ public class CageClimber extends SubsystemBase {
     public CageClimber() {
         // Motor configuration (brake mode, follow, etc) are configured using Rev Hardware Client
         motor = new SparkMax(32, MotorType.kBrushless);
-        solenoid = new Solenoid(50, PneumaticsModuleType.REVPH, 15);
+        solenoid = new Solenoid(50, PneumaticsModuleType.REVPH, 0);
     }
 
     public Command out() {
