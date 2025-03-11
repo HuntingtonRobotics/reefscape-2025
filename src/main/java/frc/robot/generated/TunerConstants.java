@@ -31,7 +31,7 @@ public class TunerConstants {
     // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
     private static final Slot0Configs driveGains = new Slot0Configs()
         .withKP(0.1).withKI(0).withKD(0)
-        .withKS(0).withKV(0.124);
+        .withKS(0.1470275).withKV(0.124); //orig Ks= 0
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors
@@ -129,7 +129,7 @@ public class TunerConstants {
     private static final int kFrontLeftDriveMotorId = 12;
     private static final int kFrontLeftSteerMotorId = 11;
     private static final int kFrontLeftEncoderId = 2;
-    private static final Angle kFrontLeftEncoderOffset = Rotations.of(-0.004078125);
+    private static final Angle kFrontLeftEncoderOffset = Rotations.of(0.0042726015625);
     private static final boolean kFrontLeftSteerMotorInverted = true;
     private static final boolean kFrontLeftEncoderInverted = false;
 
@@ -140,7 +140,7 @@ public class TunerConstants {
     private static final int kFrontRightDriveMotorId = 14;
     private static final int kFrontRightSteerMotorId = 16;
     private static final int kFrontRightEncoderId = 3;
-    private static final Angle kFrontRightEncoderOffset = Rotations.of(0.317626953125);
+    private static final Angle kFrontRightEncoderOffset = Rotations.of(0.31787109375);
     private static final boolean kFrontRightSteerMotorInverted = true;
     private static final boolean kFrontRightEncoderInverted = false;
 
@@ -162,7 +162,7 @@ public class TunerConstants {
     private static final int kBackRightDriveMotorId = 15;
     private static final int kBackRightSteerMotorId = 17;
     private static final int kBackRightEncoderId = 1;
-    private static final Angle kBackRightEncoderOffset = Rotations.of(0.0439453125);
+    private static final Angle kBackRightEncoderOffset = Rotations.of(0.041259765625);
     private static final boolean kBackRightSteerMotorInverted = true;
     private static final boolean kBackRightEncoderInverted = false;
 
