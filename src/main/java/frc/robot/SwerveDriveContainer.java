@@ -48,10 +48,19 @@ public class SwerveDriveContainer {
         // Fine motor control
         fineMotorControlBindings(controller);
 
-        controller.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        //controller.a().whileTrue(drivetrain.applyRequest(() -> brake));
         controller.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-controller.getLeftY(), -controller.getLeftX()))
         ));
+
+        // Limelight-based drive
+        controller.a().whileTrue(
+            drivetrain.applyRequest(() -> 
+                drive.withVelocityX(limelight_range_proportional())
+                     .withVelocityY(limelight_aim_proportional())
+                     .withRotationalRate(limelight_aim_proportional())
+            )
+        );
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -129,6 +138,30 @@ public class SwerveDriveContainer {
                      .withVelocityY(-speedY)
             )
         );
+    }
+
+    // *** In Limelight world, Y is forward/back, X is left/right ***
+
+    // Calculate proportional aim (rotation) speed
+    private double limelight_aim_proportional() {
+        // Constant of proportionality
+        double kP = 0.035;
+        
+        double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
+        targetingAngularVelocity *= MaxAngularRate / 4;
+        targetingAngularVelocity *= -1.0; // -1.0 is for controller invert
+        return targetingAngularVelocity;
+    }
+
+    // Calculate proportional range (drive) speed 
+    private double limelight_range_proportional() {
+        // Constant of proportionality
+        double kP = 0.1;
+
+        double targetingForwardSpeed = LimelightHelpers.getTY("limelight") * kP;
+        targetingForwardSpeed *= MaxSpeed / 5;
+        //targetingForwardSpeed *= -1.0; // -1.0 is for controller invert
+        return targetingForwardSpeed;
     }
 
     public Command getAutonomousCommand() {
