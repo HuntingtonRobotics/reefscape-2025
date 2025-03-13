@@ -6,30 +6,33 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DashboardConstants;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private SparkMax rightMotor;
     private SparkMaxConfig rightMotorConfig;
     private RelativeEncoder rightMotorEncoder;
-
+    private DigitalInput sensor;
     @SuppressWarnings("unused")
     private SparkMax leftMotor;
+    
 
     public static final double GearRadiusMeters = 0.047;
     public static final double GearCircumferenceMeters = (GearRadiusMeters * 2) * Math.PI;
 
     public ElevatorSubsystem() {
         // Motor configuration (brake mode, follow, etc) are configured using Rev Hardware Client
-
+        
         rightMotor = new SparkMax(30, MotorType.kBrushless);
         rightMotorEncoder = rightMotor.getEncoder();
         rightMotorConfig = new SparkMaxConfig();
-
+        sensor = new DigitalInput(4);
         leftMotor = new SparkMax(31, MotorType.kBrushless); // set to 'follow' in the SparkMax
 
         rightMotorConfig.encoder.positionConversionFactor(0.028); // 1/36th
@@ -89,10 +92,23 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public Command lower() {
+    
         return this.startEnd(
-                () -> rightMotor.set(0.55),
-                () -> rightMotor.set(0));
+            ()-> {while (sensor.get()){
+                rightMotor.set(0.5);}
+
+                rightMotor.set(0.0);
+            },
+            ()->  rightMotor.set(0)
+         );
+        
+        
+      
+    
+            
     }
+        
+    
 
 
     public Command stop() {
