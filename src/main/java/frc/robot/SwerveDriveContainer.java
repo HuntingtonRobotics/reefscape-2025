@@ -49,18 +49,12 @@ public class SwerveDriveContainer {
         fineMotorControlBindings(controller);
 
         //controller.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        controller.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-controller.getLeftY(), -controller.getLeftX()))
-        ));
+        // controller.b().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-controller.getLeftY(), -controller.getLeftX()))
+        // ));
 
         // Limelight-based drive
-        controller.a().whileTrue(
-            drivetrain.applyRequest(() -> 
-                drive.withVelocityX(limelight_range_proportional())
-                     .withVelocityY(limelight_aim_proportional())
-                     .withRotationalRate(limelight_aim_proportional())
-            )
-        );
+        limelightDriveControlBindings(controller);
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -139,14 +133,32 @@ public class SwerveDriveContainer {
             )
         );
     }
+    
+    private void limelightDriveControlBindings(CommandXboxController controller) {
+        // *** In Limelight world, +Y is forward, +X is right ***
+        controller.x().whileTrue(
+            drivetrain.applyRequest(() -> 
+                drive.withVelocityX(limelight_range_proportional(false))
+                     .withVelocityY(limelight_aim_proportional(false))
+                     .withRotationalRate(limelight_aim_proportional(false))
+            )
+        );
 
-    // *** In Limelight world, Y is forward/back, X is left/right ***
+        controller.b().whileTrue(
+            drivetrain.applyRequest(() -> 
+                drive.withVelocityX(limelight_range_proportional(true))
+                     .withVelocityY(limelight_aim_proportional(true))
+                     .withRotationalRate(limelight_aim_proportional(true))
+            )
+        );
+    }
 
     // Calculate proportional aim (rotation) speed
-    private double limelight_aim_proportional() {
+    private double limelight_aim_proportional(Boolean forRightReefBranch) {
         // Constant of proportionality
         double kP = 0.035;
-        
+        setPipeline(forRightReefBranch);
+
         double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
         targetingAngularVelocity *= MaxAngularRate / 4;
         targetingAngularVelocity *= -1.0; // -1.0 is for controller invert
@@ -154,14 +166,22 @@ public class SwerveDriveContainer {
     }
 
     // Calculate proportional range (drive) speed 
-    private double limelight_range_proportional() {
+    private double limelight_range_proportional(Boolean forRightReefBranch) {
         // Constant of proportionality
         double kP = 0.1;
+        setPipeline(forRightReefBranch);
 
         double targetingForwardSpeed = LimelightHelpers.getTY("limelight") * kP;
         targetingForwardSpeed *= MaxSpeed / 5;
         //targetingForwardSpeed *= -1.0; // -1.0 is for controller invert
         return targetingForwardSpeed;
+    }
+
+    private void setPipeline(Boolean forRightReefBranch) {
+        int pipelineIndex = forRightReefBranch ? 1 : 0; // See Limelight config page
+        if (LimelightHelpers.getCurrentPipelineIndex("limelight") != pipelineIndex) {
+            LimelightHelpers.setPipelineIndex("limelight", pipelineIndex);
+        }
     }
 
     public Command getAutonomousCommand() {
