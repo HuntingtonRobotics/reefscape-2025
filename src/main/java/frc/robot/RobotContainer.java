@@ -66,15 +66,7 @@ public class RobotContainer {
   public RobotContainer() {
     assignedAlliance = getAlliance();
 
-    NamedCommands.registerCommand("coralToFirstPosition", coralElevatorCommands.coralToFirstPosition());
-    NamedCommands.registerCommand("coralToSecondPosition", coralElevatorCommands.coralToSecondPosition());
-    NamedCommands.registerCommand("coralToThirdPosition", coralElevatorCommands.coralToThirdPosition());
-    NamedCommands.registerCommand("coralToTopPosition", coralElevatorCommands.coralToTopPosition());
-    NamedCommands.registerCommand("lowerTopToThirdPositionIsh", coralElevatorCommands.lowerTopToThirdPositionIsh());
-    NamedCommands.registerCommand("lowerToBottomIshFromSecondPosition", coralElevatorCommands.lowerToBottomIshFromSecondPosition());
-    NamedCommands.registerCommand("lowerToBottomIshFromTop", coralElevatorCommands.lowerToBottomIshFromTop());
-    NamedCommands.registerCommand("getAlgae", algaeCommands.getAlgae());
-    NamedCommands.registerCommand("depositAlgae", algaeCommands.depositAlgae());
+    registerNamedCommands();
     autoChooser = AutoBuilder.buildAutoChooser("Drive Forward");
 
     // Initialize dashboard values
@@ -84,6 +76,20 @@ public class RobotContainer {
     configureBindings();
     
     CameraServer.startAutomaticCapture(); // adds to dashboard
+  }
+
+  private void registerNamedCommands() {
+    NamedCommands.registerCommand("coralToFirstPosition", coralElevatorCommands.coralToFirstPosition());
+    NamedCommands.registerCommand("coralToSecondPosition", coralElevatorCommands.coralToSecondPosition());
+    NamedCommands.registerCommand("coralToThirdPosition", coralElevatorCommands.coralToThirdPosition());
+    NamedCommands.registerCommand("coralToTopPosition", coralElevatorCommands.coralToTopPosition());
+    NamedCommands.registerCommand("lowerTopToThirdPositionIsh", coralElevatorCommands.lowerTopToThirdPositionIsh());
+    NamedCommands.registerCommand("lowerToBottomIshFromSecondPosition", coralElevatorCommands.lowerToBottomIshFromSecondPosition());
+    NamedCommands.registerCommand("lowerToBottomIshFromTop", coralElevatorCommands.lowerToBottomIshFromTop());
+    NamedCommands.registerCommand("getAlgae", algaeCommands.getAlgae());
+    NamedCommands.registerCommand("depositAlgae", algaeCommands.depositAlgae());
+    NamedCommands.registerCommand("autoDriveToLeftCoralBranch", swerve.autoDriveToLeftCoralBranch());
+    NamedCommands.registerCommand("autoDriveToRightCoralBranch", swerve.autoDriveToRightCoralBranch());
   }
 
   private Alliance getAlliance() {

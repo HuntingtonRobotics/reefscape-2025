@@ -5,14 +5,14 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.LimelightCamera;
+import frc.robot.util.CoralBranch;
 
 public class SwerveDriveContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -28,6 +28,7 @@ public class SwerveDriveContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final LimelightCamera limelightCamera = new LimelightCamera(MaxSpeed, MaxAngularRate);
 
     public SwerveDriveContainer() {
         // N/A
@@ -137,54 +138,34 @@ public class SwerveDriveContainer {
     private void limelightDriveControlBindings(CommandXboxController controller) {
         // *** In Limelight world, +Y is forward, +X is right ***
         controller.x().whileTrue(
-            drivetrain.applyRequest(() -> 
-                drive.withVelocityX(limelight_range_proportional(false))
-                     .withVelocityY(limelight_aim_proportional(false))
-                     .withRotationalRate(limelight_aim_proportional(false))
-            )
+            limelightDrivetrainCommand(CoralBranch.Left)
         );
 
         controller.b().whileTrue(
-            drivetrain.applyRequest(() -> 
-                drive.withVelocityX(limelight_range_proportional(true))
-                     .withVelocityY(limelight_aim_proportional(true))
-                     .withRotationalRate(limelight_aim_proportional(true))
-            )
+            limelightDrivetrainCommand(CoralBranch.Right)
         );
     }
 
-    // Calculate proportional aim (rotation) speed
-    private double limelight_aim_proportional(Boolean forRightReefBranch) {
-        // Constant of proportionality
-        double kP = 0.035;
-        setPipeline(forRightReefBranch);
-
-        double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
-        targetingAngularVelocity *= MaxAngularRate / 4;
-        targetingAngularVelocity *= -1.0; // -1.0 is for controller invert
-        return targetingAngularVelocity;
+    public Command autoDriveToLeftCoralBranch() {
+        CoralBranch targetBranch = CoralBranch.Left;
+        return getAutoDrive(targetBranch);
     }
 
-    // Calculate proportional range (drive) speed 
-    private double limelight_range_proportional(Boolean forRightReefBranch) {
-        // Constant of proportionality
-        double kP = 0.1;
-        setPipeline(forRightReefBranch);
-
-        double targetingForwardSpeed = LimelightHelpers.getTY("limelight") * kP;
-        targetingForwardSpeed *= MaxSpeed / 5;
-        //targetingForwardSpeed *= -1.0; // -1.0 is for controller invert
-        return targetingForwardSpeed;
+    public Command autoDriveToRightCoralBranch() {
+        CoralBranch targetBranch = CoralBranch.Right;
+        return getAutoDrive(targetBranch);
     }
 
-    private void setPipeline(Boolean forRightReefBranch) {
-        int pipelineIndex = forRightReefBranch ? 1 : 0; // See Limelight config page
-        if (LimelightHelpers.getCurrentPipelineIndex("limelight") != pipelineIndex) {
-            LimelightHelpers.setPipelineIndex("limelight", pipelineIndex);
-        }
+    private Command getAutoDrive(CoralBranch targetBranch) {
+        return limelightDrivetrainCommand(targetBranch)
+            .until(() -> limelightCamera.rangeProportional(targetBranch) < 0.5);
     }
 
-    public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+    private Command limelightDrivetrainCommand(CoralBranch targetBranch) {
+        return drivetrain.applyRequest(() -> 
+                drive.withVelocityX(limelightCamera.rangeProportional(targetBranch))
+                     .withVelocityY(limelightCamera.aimProportional(targetBranch))
+                     .withRotationalRate(limelightCamera.aimProportional(targetBranch))
+            );
     }
 }
