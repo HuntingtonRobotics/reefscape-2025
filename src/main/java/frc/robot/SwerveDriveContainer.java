@@ -6,6 +6,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
@@ -147,18 +148,19 @@ public class SwerveDriveContainer {
     }
 
     public Command autoDriveToLeftCoralBranch() {
+        drivetrain.seedFieldCentric();
         CoralBranch targetBranch = CoralBranch.Left;
         return getAutoDrive(targetBranch);
     }
 
     public Command autoDriveToRightCoralBranch() {
+        drivetrain.seedFieldCentric();
         CoralBranch targetBranch = CoralBranch.Right;
         return getAutoDrive(targetBranch);
     }
 
     private Command getAutoDrive(CoralBranch targetBranch) {
-        return limelightDrivetrainCommand(targetBranch)
-            .until(() -> limelightCamera.rangeProportional(targetBranch) < 0.5);
+        return Commands.race(limelightDrivetrainCommand(targetBranch), Commands.waitSeconds(3));
     }
 
     private Command limelightDrivetrainCommand(CoralBranch targetBranch) {

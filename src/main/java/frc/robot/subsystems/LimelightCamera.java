@@ -29,11 +29,12 @@ public class LimelightCamera {
     // Calculate proportional range (drive) speed 
     public double rangeProportional(CoralBranch coralBranch) {
         // Constant of proportionality; control effective distance from tag
-        double kP = 0.05;
+        double kP = 0.1;
         setPipeline(coralBranch);
 
         double targetingForwardSpeed = LimelightHelpers.getTY("limelight") * kP;
-        targetingForwardSpeed *= MaxSpeed / 4;
+        targetingForwardSpeed *= (MaxSpeed / 6);
+        targetingForwardSpeed *= -1.0;
         return targetingForwardSpeed;
     }
 
