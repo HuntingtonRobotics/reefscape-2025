@@ -5,14 +5,12 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DashboardConstants;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private SparkMax rightMotor;
@@ -92,30 +90,20 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public Command lower() {
-    
         return this.startEnd(
-            ()-> {while (sensor.get()){
-                rightMotor.set(0.5);}
+            () -> {
+                while (sensor.get()) {
+                    rightMotor.set(0.5);
+                }
 
                 rightMotor.set(0.0);
             },
-            ()->  rightMotor.set(0)
-         );
-        
-        
-      
-    
-            
+            () -> rightMotor.set(0));
     }
-        
-    
-
 
     public Command stop() {
         return this.run(() -> rightMotor.set(0));
     }
-
-    
 
     public double getCurrentPosition() {
         return rightMotorEncoder.getPosition();
