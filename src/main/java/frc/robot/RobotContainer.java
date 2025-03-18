@@ -28,6 +28,7 @@ import frc.robot.subsystems.CoralRamp;
 import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -43,6 +44,7 @@ public class RobotContainer {
   private final CoralRamp coralRamp = new CoralRamp();
   private final CoralDoor coralDoor = new CoralDoor();
   private final CageClimber climber = new CageClimber();
+ 
 
   private final CoralElevatorCommands coralElevatorCommands = new CoralElevatorCommands(elevator, coralDoor);
   private final AlgaeCommands algaeCommands = new AlgaeCommands(algaeArm, algaeIntake);
@@ -113,13 +115,13 @@ public class RobotContainer {
     operatorController.povUp().whileTrue(elevator.raise());
     operatorController.povDown().whileTrue(elevator.lower());
     // A = first position
-    operatorController.a().onTrue(coralElevatorCommands.coralToFirstPosition());
+    operatorController.a().onTrue(coralElevatorCommands.fullrun1Pos());
     // X = second
-    operatorController.x().onTrue(coralElevatorCommands.coralToSecondPosition());
+    operatorController.x().onTrue(coralElevatorCommands.fullrun2Pos());
     // Y = third
-    operatorController.y().onTrue(coralElevatorCommands.coralToThirdPosition());
+    operatorController.b().onTrue(coralElevatorCommands.fullrun3Pos());
     // B = top
-    operatorController.b().onTrue(coralElevatorCommands.coralToTopPosition());
+    operatorController.y().onTrue(coralElevatorCommands.fullrun4Pos());
     // Reset encoder - only necessary for auto-raise by height
     operatorController.b().and(operatorController.x()).onTrue(elevator.resetEncoder());
     // Emergency break

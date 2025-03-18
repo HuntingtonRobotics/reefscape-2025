@@ -5,13 +5,19 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.CoralDoor;
 import frc.robot.subsystems.ElevatorSubsystem;
 
+
+
 public class CoralElevatorCommands {
     private ElevatorSubsystem elevator;
     private CoralDoor coralDoor;
+    
 
-    public CoralElevatorCommands(ElevatorSubsystem elevator, CoralDoor door) {
+
+
+    public CoralElevatorCommands(ElevatorSubsystem elevator, CoralDoor door){
         this.elevator = elevator;
         this.coralDoor = door;
+        
     }
 
     public Command coralToFirstPosition() {
@@ -57,8 +63,26 @@ public class CoralElevatorCommands {
             coralDoor.toggleOpen()
         );
     }
+    
 
     private Command lowerByTime(double seconds) {
         return Commands.race(elevator.lower(), Commands.waitSeconds(seconds));
     }
+
+    public Command fullrun4Pos (){
+       return Commands.sequence(coralToTopPosition(), coralDoor.toggleOpen(), Commands.waitSeconds(1), coralDoor.toggleOpen(), lowerByTime(5.2));
+        
+    }
+    public Command fullrun3Pos (){
+        return Commands.sequence(coralToThirdPosition(), coralDoor.toggleOpen(), Commands.waitSeconds(1), coralDoor.toggleOpen(), lowerByTime(2.4));
+         
+     }
+     public Command fullrun2Pos (){
+        return Commands.sequence(coralToSecondPosition(), coralDoor.toggleOpen(), Commands.waitSeconds(1), coralDoor.toggleOpen(), lowerByTime(1.5));
+         
+     }
+     public Command fullrun1Pos (){
+        return Commands.sequence(coralToFirstPosition(), coralDoor.toggleOpen(), Commands.waitSeconds(1), coralDoor.toggleOpen(), lowerByTime(0.4));
+         
+     }
 }
