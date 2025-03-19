@@ -27,11 +27,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     public ElevatorSubsystem() {
         // Motor configuration (brake mode, follow, etc) are configured using Rev Hardware Client
         
-        rightMotor = new SparkMax(30, MotorType.kBrushless);
+        rightMotor = new SparkMax(99, MotorType.kBrushless);
         rightMotorEncoder = rightMotor.getEncoder();
         rightMotorConfig = new SparkMaxConfig();
-        sensor = new DigitalInput(4);
-        leftMotor = new SparkMax(31, MotorType.kBrushless); // set to 'follow' in the SparkMax
+        sensor = new DigitalInput(10);
+        leftMotor = new SparkMax(98, MotorType.kBrushless); // set to 'follow' in the SparkMax
 
         rightMotorConfig.encoder.positionConversionFactor(0.028); // 1/36th
         rightMotor.configure(rightMotorConfig, null, null);
