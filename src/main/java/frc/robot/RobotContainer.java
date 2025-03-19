@@ -20,12 +20,16 @@ import frc.robot.Constants.DashboardConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AlgaeCommands;
 import frc.robot.commands.CoralElevatorCommands;
+import frc.robot.commands.LowerElevatorCommand;
+import frc.robot.commands.RaiseElevatorCommand;
+import frc.robot.commands.ScoreCoralCommands;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.AlgaeIntake;
 import frc.robot.subsystems.CageClimber;
 import frc.robot.subsystems.CoralDoor;
 import frc.robot.subsystems.CoralRamp;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ElevatorSubsystemBasic;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 
@@ -41,16 +45,17 @@ public class RobotContainer {
   private final AlgaeArm algaeArm = new AlgaeArm();
   private final AlgaeIntake algaeIntake = new AlgaeIntake();
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
+  private final ElevatorSubsystemBasic elevatorBasic = new ElevatorSubsystemBasic();
   private final CoralRamp coralRamp = new CoralRamp();
   private final CoralDoor coralDoor = new CoralDoor();
   private final CageClimber climber = new CageClimber();
+  private final DigitalInput elevatorSensor = new DigitalInput(4);
  
 
   private final CoralElevatorCommands coralElevatorCommands = new CoralElevatorCommands(elevator, coralDoor);
+  private final ScoreCoralCommands coralCommands = new ScoreCoralCommands(elevatorBasic, elevatorSensor, coralDoor);
   private final AlgaeCommands algaeCommands = new AlgaeCommands(algaeArm, algaeIntake);
 
-
-   DigitalInput toplimitSwitch = new DigitalInput(8);
 
   /* Path follower */
   private final SendableChooser<Command> autoChooser;
@@ -112,8 +117,10 @@ public class RobotContainer {
    */
   private void configureGameplayBindings() {
     // Elevator
-    operatorController.povUp().whileTrue(elevator.raise());
-    operatorController.povDown().whileTrue(elevator.lower());
+    //operatorController.povUp().whileTrue(elevator.raise());
+    //operatorController.povDown().whileTrue(elevator.lower());
+    operatorController.povUp().whileTrue(new RaiseElevatorCommand(elevatorBasic));
+    operatorController.povDown().whileTrue(new LowerElevatorCommand(elevatorBasic, elevatorSensor));
     // A = first position
     operatorController.a().onTrue(coralElevatorCommands.fullrun1Pos());
     // X = second
@@ -142,11 +149,6 @@ public class RobotContainer {
     operatorController.povLeft().whileTrue(climber.in());
     operatorController.rightBumper().onTrue(climber.toggle());
 
-    
-    if(!toplimitSwitch.get()) {
-      algaeIntake.outtake();
-    }  
-    
   }
 
   /**
