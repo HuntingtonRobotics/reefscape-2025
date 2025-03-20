@@ -21,12 +21,6 @@
           "data": {
             "pathName": "Move Back 5"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "lowerToBottomIshFromTop"
-          }
         }
       ]
     }

@@ -21,12 +21,6 @@
           "data": {
             "pathName": "Move Back 3"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "lowerToBottomIshFromSecondPosition"
-          }
         }
       ]
     }
