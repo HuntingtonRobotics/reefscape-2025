@@ -9,30 +9,6 @@
           "data": {
             "name": "autoAlignLeftCoralBranch"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Move to 4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "coralToTopPosition"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Move Back 4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "lowerToBottomIshFromTop"
-          }
         }
       ]
     }
