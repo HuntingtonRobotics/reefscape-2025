@@ -112,19 +112,25 @@ public class RobotContainer {
     // Elevator
     operatorController.povUp().whileTrue(elevator.raise());
     operatorController.povDown().whileTrue(elevator.lower());
+    //1.11842105
     // A = first position
-    operatorController.a().onTrue(coralElevatorCommands.coralToFirstPosition());
+    operatorController.a().onTrue(coralElevatorCommands.raiseSequence(0.1572,0.2));
     // X = second
-    operatorController.x().onTrue(coralElevatorCommands.coralToSecondPosition());
+    operatorController.x().onTrue(coralElevatorCommands.raiseSequence(0.6,.8));
     // Y = third
-    operatorController.y().onTrue(coralElevatorCommands.coralToThirdPosition());
+    operatorController.y().onTrue(coralElevatorCommands.raiseSequence(1.2,1.65));
     // B = top
-    operatorController.b().onTrue(coralElevatorCommands.coralToTopPosition());
+    //never go aove 2.5
+    operatorController.b().onTrue(coralElevatorCommands.raiseSequence(2.2,3.1));
     // Reset encoder - only necessary for auto-raise by height
     operatorController.b().and(operatorController.x()).onTrue(elevator.resetEncoder());
     // Emergency break
     operatorController.back().onTrue(elevator.stop());
     
+    
+    //sensor
+    //bens thingy
+    //operatorController.start().onTrue(elevator.Accelerate(.7,.5,1.7));
 
     // Algae
     operatorController.leftBumper().onTrue(algaeArm.toggleExtend());

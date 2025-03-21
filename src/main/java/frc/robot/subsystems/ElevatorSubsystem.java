@@ -6,6 +6,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -16,7 +17,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private SparkMax rightMotor;
     private SparkMaxConfig rightMotorConfig;
     private RelativeEncoder rightMotorEncoder;
-
+    private DigitalInput sensor;
     @SuppressWarnings("unused")
     private SparkMax leftMotor;
 
@@ -25,7 +26,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem() {
         // Motor configuration (brake mode, follow, etc) are configured using Rev Hardware Client
-
+        sensor = new DigitalInput(4);
+        
         rightMotor = new SparkMax(30, MotorType.kBrushless);
         rightMotorEncoder = rightMotor.getEncoder();
         rightMotorConfig = new SparkMaxConfig();
@@ -82,20 +84,41 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public Command raise() {
+        
         return this.startEnd(
-                () -> rightMotor.set(-0.7), // reverse direction for 'raise'
+                () -> rightMotor.set(-0.85), // reverse direction for 'raise'
                 () -> rightMotor.set(0));
+                
 
     }
 
+    public Command raiseAuto(){
+        return this.startEnd(
+                () -> rightMotor.set(-0.7), // reverse direction for 'raise'
+                () -> rightMotor.set(0));
+    }
+
     public Command lower() {
+        
+       /*  return this.run(() -> {
+            if(sensor.get()){
+                rightMotor.set(0);
+            }
+            else{
+                rightMotor.set(0.7);
+                }
+        
+        
+        }); */
+        
         return this.startEnd(
                 () -> rightMotor.set(0.55),
                 () -> rightMotor.set(0));
     }
 
-
+    
     public Command stop() {
+        System.out.print(sensor);
         return this.run(() -> rightMotor.set(0));
     }
 
@@ -113,4 +136,57 @@ public class ElevatorSubsystem extends SubsystemBase {
             rightMotorEncoder.setPosition(0);
         });
     }
+
+    /*public Command Accelerate ( double Currentpower, double timetomaxspeed , double currenttime){
+        return this.runOnce(() -> {{double direction = 1;
+            double timepassed = 0.0;
+            double totalPower = 0; 
+            double count = 0;
+            double outputpower = 0;
+            double tp = timepassed;
+            while (timepassed < timetomaxspeed){
+                outputpower = Math.pow(timepassed/timetomaxspeed,2);
+                timepassed ++;
+                totalPower+= outputpower;
+                System.out.println("outputpower " + outputpower * direction);
+                
+            }
+    
+            double totalaccelpower = totalPower;
+            while(totalPower + 1.6 < (Currentpower * currenttime) - totalaccelpower){
+                if (count <= 16){
+                    outputpower = 0.99;
+                    timepassed ++;
+                    totalPower += outputpower;
+                }
+                else{
+                    outputpower = 1;
+                    timepassed ++;
+                    totalPower += outputpower;
+    
+                }
+    
+                count += 0.1;
+                System.out.println("outputpower " + outputpower * direction);
+            }
+            while(outputpower> 0){
+                outputpower = 1 - Math.pow((timepassed - tp)/timetomaxspeed,0.5);
+                timepassed++;
+                totalPower += outputpower;
+                System.out.println("outputpower " + outputpower * direction);
+            }
+            
+            System.out.println("the average power used was " + totalPower / timepassed + " over " + timepassed);
+            System.out.println("total power used was " + totalPower);
+    
+        }
+        
+        
+  
+    
+        });
+       
+
+}*/
+    
 }
