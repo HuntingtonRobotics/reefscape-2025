@@ -90,6 +90,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("depositAlgae", algaeCommands.depositAlgae());
     NamedCommands.registerCommand("autoDriveToLeftCoralBranch", swerve.autoDriveToLeftCoralBranch());
     NamedCommands.registerCommand("autoDriveToRightCoralBranch", swerve.autoDriveToRightCoralBranch());
+    NamedCommands.registerCommand("autoAlignLeftCoralBranch", swerve.autoAlignLeftCoralBranch());
   }
 
   private Alliance getAlliance() {

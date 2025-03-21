@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CoralRamp;
 import frc.robot.subsystems.LimelightCamera;
 import frc.robot.util.CoralBranch;
 
@@ -159,6 +160,10 @@ public class SwerveDriveContainer {
         return getAutoDrive(targetBranch);
     }
 
+    public Command autoAlignLeftCoralBranch() {
+        return spinOnly(CoralBranch.Right);
+    }
+
     private Command getAutoDrive(CoralBranch targetBranch) {
         return Commands.race(limelightDrivetrainCommand(targetBranch), Commands.waitSeconds(3));
     }
@@ -169,5 +174,12 @@ public class SwerveDriveContainer {
                      .withVelocityY(limelightCamera.aimProportional(targetBranch))
                      .withRotationalRate(limelightCamera.aimProportional(targetBranch))
             );
+    }
+
+    private Command spinOnly(CoralBranch targetBranch) {
+        return drivetrain.applyRequest(() ->
+            drive.withVelocityY(limelightCamera.aimProportional(targetBranch))
+                 .withRotationalRate(limelightCamera.aimProportional(targetBranch))
+        );
     }
 }
