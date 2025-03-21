@@ -28,7 +28,7 @@ public class CoralElevatorCommands {
     }
 
     public Command coralToTopPosition() {
-        return RaiseByTime(1.7);
+        return RaiseByTime(2.75);
     }
 
     private Command RaiseByTime(double seconds){
@@ -51,7 +51,7 @@ public class CoralElevatorCommands {
     }
 
     public Command lowerToBottomIshFromTop() {
-        return lowerByTime(2.6*1.11842105);
+        return lowerByTime(2.75*1.11842105);
     }
 
     public Command reset() {
