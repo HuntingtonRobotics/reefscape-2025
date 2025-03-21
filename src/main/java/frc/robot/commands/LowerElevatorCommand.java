@@ -16,7 +16,8 @@ public class LowerElevatorCommand extends Command {
 
     @Override
     public void execute() {
-        if (!sensor.get()) {
+        boolean sensorNotTriggered = sensor.get(); // True = not triggered, False = triggered
+        if (sensorNotTriggered) {
             elevator.lower();
         }
         else {
