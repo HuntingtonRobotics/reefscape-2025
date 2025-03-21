@@ -5,7 +5,6 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -13,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.LimelightCamera;
+import frc.robot.util.CoralBranch;
 
 public class SwerveDriveContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -28,6 +29,7 @@ public class SwerveDriveContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final LimelightCamera limelightCamera = new LimelightCamera(MaxSpeed, MaxAngularRate);
 
     public SwerveDriveContainer() {
         // N/A
@@ -48,10 +50,13 @@ public class SwerveDriveContainer {
         // Fine motor control
         fineMotorControlBindings(controller);
 
-        controller.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        controller.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-controller.getLeftY(), -controller.getLeftX()))
-        ));
+        //controller.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        // controller.b().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-controller.getLeftY(), -controller.getLeftX()))
+        // ));
+
+        // Limelight-based drive
+        limelightDriveControlBindings(controller);
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -130,8 +135,39 @@ public class SwerveDriveContainer {
             )
         );
     }
+    
+    private void limelightDriveControlBindings(CommandXboxController controller) {
+        // *** In Limelight world, +Y is forward, +X is right ***
+        controller.x().whileTrue(
+            limelightDrivetrainCommand(CoralBranch.Left)
+        );
 
-    public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+        controller.b().whileTrue(
+            limelightDrivetrainCommand(CoralBranch.Right)
+        );
+    }
+
+    public Command autoDriveToLeftCoralBranch() {
+        drivetrain.seedFieldCentric();
+        CoralBranch targetBranch = CoralBranch.Left;
+        return getAutoDrive(targetBranch);
+    }
+
+    public Command autoDriveToRightCoralBranch() {
+        drivetrain.seedFieldCentric();
+        CoralBranch targetBranch = CoralBranch.Right;
+        return getAutoDrive(targetBranch);
+    }
+
+    private Command getAutoDrive(CoralBranch targetBranch) {
+        return Commands.race(limelightDrivetrainCommand(targetBranch), Commands.waitSeconds(3));
+    }
+
+    private Command limelightDrivetrainCommand(CoralBranch targetBranch) {
+        return drivetrain.applyRequest(() -> 
+                drive.withVelocityX(limelightCamera.rangeProportional(targetBranch))
+                     .withVelocityY(limelightCamera.aimProportional(targetBranch))
+                     .withRotationalRate(limelightCamera.aimProportional(targetBranch))
+            );
     }
 }
