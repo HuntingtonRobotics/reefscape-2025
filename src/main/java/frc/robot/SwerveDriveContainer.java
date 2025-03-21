@@ -41,7 +41,7 @@ public class SwerveDriveContainer {
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(-controller.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
                     .withVelocityY(-controller.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-controller.getRightX() * MaxAngularRate / 2) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate(-controller.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
