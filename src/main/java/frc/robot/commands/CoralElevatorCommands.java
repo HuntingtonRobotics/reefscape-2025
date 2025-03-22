@@ -50,7 +50,7 @@ public class CoralElevatorCommands {
     }
 
     public Command lowerToBottomIshFromTop() {
-        return lowerByTime(2.7*1.11842105);
+        return lowerByTime(2.9*1.11842105);
     }
 
     public Command reset() {
