@@ -121,7 +121,7 @@ public class RobotContainer {
     operatorController.y().onTrue(coralElevatorCommands.raiseSequence(1.2,1.65));
     // B = top
     //never go aove 2.5
-    operatorController.b().onTrue(coralElevatorCommands.raiseSequence(2.2,3.1));
+    operatorController.b().onTrue(coralElevatorCommands.raiseSequence(2.3,3.1));
     // Reset encoder - only necessary for auto-raise by height
     operatorController.b().and(operatorController.x()).onTrue(elevator.resetEncoder());
     // Emergency break

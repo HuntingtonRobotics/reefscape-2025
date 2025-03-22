@@ -28,13 +28,12 @@ public class CoralElevatorCommands {
     }
 
     public Command coralToTopPosition() {
-        return RaiseByTime(2.75);
+        return RaiseByTime(2.8);
     }
 
     private Command RaiseByTime(double seconds){
         return Commands.sequence(
             Commands.race(elevator.raiseAuto(), Commands.waitSeconds(seconds)),
-
             coralDoor.toggleOpen(),
             Commands.waitSeconds(2.5),
             coralDoor.toggleOpen()
@@ -51,7 +50,7 @@ public class CoralElevatorCommands {
     }
 
     public Command lowerToBottomIshFromTop() {
-        return lowerByTime(2.75*1.11842105);
+        return lowerByTime(2.7*1.11842105);
     }
 
     public Command reset() {
@@ -71,7 +70,11 @@ public class CoralElevatorCommands {
 
     public Command raiseSequence(double raise , double lower){
         return Commands.sequence(
-            raiseByTime(raise), coralDoor.toggleOpen(),Commands.waitSeconds(0.75),lowerByTime(lower),coralDoor.toggleOpen()
+            raiseByTime(raise),
+            coralDoor.toggleOpen(),
+            Commands.waitSeconds(0.75),
+            lowerByTime(lower),
+            coralDoor.toggleOpen()
         );
     }
 
