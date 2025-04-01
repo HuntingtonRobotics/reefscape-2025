@@ -22,31 +22,41 @@ public class CoralElevatorCommands {
 
     public Command coralToFirstPosition() {
         // Elevator only needs to rise a few inches
-        return raiseByTime(0.2);
+        return RaiseByTime(0.2);
     }
 
     public Command coralToSecondPosition() {
-        return raiseByTime(0.75);
+        return RaiseByTime(0.75);
     }    
 
     public Command coralToThirdPosition() {
-        return raiseByTime(1.7);
+        return RaiseByTime(1.7);
     }
 
     public Command coralToTopPosition() {
-        return raiseByTime(2.6);
+        return RaiseByTime(2.8);
+    }
+
+    private Command RaiseByTime(double seconds){
+        return Commands.sequence(
+            Commands.race(elevator.raiseAuto(), Commands.waitSeconds(seconds)),
+            coralDoor.toggleOpen(),
+            Commands.waitSeconds(2.5),
+            coralDoor.toggleOpen()
+        );
+
     }
 
     public Command lowerTopToThirdPositionIsh() {
-        return lowerByTime(1.1);
+        return lowerByTime(0.9*1.11842105);
     }
 
     public Command lowerToBottomIshFromSecondPosition() {
-        return lowerByTime(0.35);
+        return lowerByTime(0.75*1.11842105);
     }
 
     public Command lowerToBottomIshFromTop() {
-        return lowerByTime(2);
+        return lowerByTime(2.9*1.11842105);
     }
 
     public Command reset() {
@@ -54,55 +64,27 @@ public class CoralElevatorCommands {
     }
 
     private Command raiseByTime(double seconds) {
-        return Commands.sequence(
-            //elevator.raiseToHeight(targetPositionMeters),
-            Commands.race(elevator.raise(), Commands.waitSeconds(seconds)),
-            //coralRamp.toggleRaise(),
-            coralDoor.toggleOpen(),
-            Commands.waitSeconds(2.5),
-            coralDoor.toggleOpen()
-        );
+        return  Commands.race(elevator.raise(), Commands.waitSeconds(seconds));
     }
-    
+
+
+
 
     private Command lowerByTime(double seconds) {
         return Commands.race(elevator.lower(), Commands.waitSeconds(seconds));
     }
 
-    public Command fullrun4Pos (){
+    public Command raiseSequence(double raise , double lower){
         return Commands.sequence(
-            coralToTopPosition(),
+            raiseByTime(raise),
             coralDoor.toggleOpen(),
-            Commands.waitSeconds(2.5),
-            coralDoor.toggleOpen(),
-            lowerByTime(5.2)
-        );        
+            Commands.waitSeconds(0.75),
+            lowerByTime(lower),
+            coralDoor.toggleOpen()
+        );
     }
+    
 
-    public Command fullrun3Pos() {
-        return Commands.sequence(
-            coralToThirdPosition(),
-            coralDoor.toggleOpen(),
-            Commands.waitSeconds(2.5),
-            coralDoor.toggleOpen(),
-            lowerByTime(2.4));
-    }
 
-    public Command fullrun2Pos() {
-        return Commands.sequence(
-            coralToSecondPosition(),
-            coralDoor.toggleOpen(),
-            Commands.waitSeconds(2.5),
-            coralDoor.toggleOpen(),
-            lowerByTime(1.5));
-    }
-
-    public Command fullrun1Pos() {
-        return Commands.sequence(
-            coralToFirstPosition(),
-            coralDoor.toggleOpen(),
-            Commands.waitSeconds(2.5),
-            coralDoor.toggleOpen(),
-            lowerByTime(0.4));
-    }
+    
 }
